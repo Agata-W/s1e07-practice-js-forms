@@ -18,10 +18,10 @@ function init() {
         const errors = []
 
 
-        if (!email.value.includes('@')) {
+        if (!isCorrectEmail(email.value)) {
             errors.push(email.previousElementSibling)
         }
-        if (password1.value !== password2.value || password1.value.length <= 6) {
+        if (!isCorrectPassword(password1, password2)) {
             errors.push(password1.previousElementSibling)
             errors.push(password2.previousElementSibling)
 
@@ -31,18 +31,34 @@ function init() {
         }
 
 
-        labelsList.forEach(function (err) {
-            err.style.color = ''
-        })
+        resetErrors()
 
 
         if (errors.length === 0) {
             console.log('done')
         } else {
-            errors.forEach(function (err) {
-                err.style.color = 'red'
-            })
+            showErrors(errors)
         }
-
     }
+
+    function isCorrectEmail(login) {
+        return login.includes('@')
+    }
+
+    function isCorrectPassword(password1, password2) {
+        return (password1.value === password2.value && password1.value.length > 6)
+    }
+
+    function resetErrors() {
+        labelsList.forEach(function (err) {
+            err.style.color = ''
+        })
+    }
+
+    function showErrors(errors) {
+        errors.forEach(function (err) {
+            err.style.color = 'red'
+        })
+    }
+
 }
